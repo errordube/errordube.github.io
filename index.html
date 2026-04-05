@@ -136,6 +136,16 @@
     .hero-name em {
       font-style: italic;
       color: var(--amber);
+      background: linear-gradient(135deg, var(--amber) 0%, #f4c07a 40%, var(--amber) 60%, #c87830 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
     }
     .hero-sub {
       font-family: var(--sans);
@@ -247,6 +257,12 @@
       padding: 1.4rem;
       border-radius: 4px;
       background: var(--card);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .stat-box:hover {
+      border-color: rgba(232,160,96,0.35);
+      box-shadow: 0 0 24px rgba(232,160,96,0.08);
+      transform: translateY(-2px);
     }
     .stat-num {
       font-family: var(--serif);
@@ -455,6 +471,35 @@
       color: var(--amber);
       margin-top: 0.5rem;
     }
+    .project-badge {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 2px;
+      display: inline-block;
+      width: fit-content;
+    }
+    .project-badge--public {
+      background: rgba(107,163,232,0.1);
+      border: 1px solid rgba(107,163,232,0.3);
+      color: var(--blue);
+    }
+    .project-badge--private {
+      background: rgba(138,133,153,0.1);
+      border: 1px solid rgba(138,133,153,0.2);
+      color: var(--muted);
+    }
+    .project-card--private {
+      cursor: default;
+      opacity: 0.88;
+    }
+    .project-card--private:hover {
+      border-color: rgba(138,133,153,0.25);
+      transform: translateY(-2px);
+    }
+    .project-card--private:hover::before { transform: scaleX(0); }
 
     /* ── CERTIFICATIONS ── */
     #certifications { background: var(--surface); }
@@ -468,9 +513,13 @@
       border-radius: 3px;
       padding: 1rem 1.2rem;
       background: var(--card);
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
     }
-    .cert-item:hover { border-color: var(--amber-dim); }
+    .cert-item:hover {
+      border-color: var(--amber-dim);
+      box-shadow: 0 0 16px rgba(232,160,96,0.06);
+      transform: translateY(-2px);
+    }
     .cert-name {
       font-size: 0.85rem;
       color: var(--text);
@@ -579,7 +628,41 @@
       color: var(--muted);
     }
 
-    /* ── ANIMATIONS ── */
+    /* ── CURSOR GLOW ── */
+    .cursor-glow {
+      position: fixed;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 998;
+      background: radial-gradient(circle, rgba(232,160,96,0.045) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+      opacity: 0;
+    }
+
+    /* ── SECTION SEPARATORS ── */
+    section + section {
+      position: relative;
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .section-label::after {
+      content: '';
+      display: inline-block;
+      height: 1px;
+      width: 40px;
+      background: linear-gradient(to right, var(--amber-dim), transparent);
+    }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -604,6 +687,7 @@
 <body>
 
 <!-- NAV -->
+<div class="cursor-glow" id="cursorGlow"></div>
 <nav>
   <a class="nav-logo" href="#hero">Aditya <span>Dube</span></a>
   <ul class="nav-links">
@@ -822,33 +906,37 @@
   <h2 class="section-title">Selected <em>work</em></h2>
   <div class="projects-grid">
 
-    <a class="project-card" href="https://github.com/errordube" target="_blank">
+    <div class="project-card project-card--private">
+      <div class="project-badge project-badge--private">Graduate Research</div>
       <div class="project-icon">📊</div>
       <div class="project-title">MTM Usage Predictors Analysis</div>
       <div class="project-desc">Multivariate analysis of 1,521 U.S. adults identifying socioeconomic and healthcare predictors of Medication Therapy Management usage. Recognized with the Graduate School Citation for Academic Excellence and IDC Research Recognition.</div>
-      <div class="project-link">Python · SPSS → View on GitHub ↗</div>
-    </a>
+      <div class="project-link">Python · SPSS</div>
+    </div>
 
-    <a class="project-card" href="https://github.com/errordube" target="_blank">
+    <div class="project-card project-card--private">
+      <div class="project-badge project-badge--private">Office Project</div>
       <div class="project-icon">🏥</div>
       <div class="project-title">Epic WorkQueue Automation</div>
       <div class="project-desc">Engineered automation workflows resolving 20K+ demographic overlays in Epic EHR, accelerating data reconciliation and reducing manual review time by 35% across Corewell Health networks.</div>
-      <div class="project-link">Epic · Python → View on GitHub ↗</div>
-    </a>
+      <div class="project-link">Epic · Python</div>
+    </div>
 
-    <a class="project-card" href="https://github.com/errordube" target="_blank">
+    <div class="project-card project-card--private">
+      <div class="project-badge project-badge--private">Graduate Research</div>
       <div class="project-icon">🤖</div>
       <div class="project-title">NLP & Economic Disparity Research</div>
       <div class="project-desc">Applied Natural Language Processing and machine learning to study economic disparities and educational biases, producing institutional policy insights during graduate research at GVSU.</div>
-      <div class="project-link">Python · NLP → View on GitHub ↗</div>
-    </a>
+      <div class="project-link">Python · NLP</div>
+    </div>
 
-    <a class="project-card" href="https://github.com/errordube" target="_blank">
+    <div class="project-card project-card--private">
+      <div class="project-badge project-badge--private">Internship Project</div>
       <div class="project-icon">📈</div>
       <div class="project-title">Revenue Cycle Tableau Dashboards</div>
       <div class="project-desc">Developed Tableau dashboards for financial KPIs and billing performance metrics, boosting reporting accuracy by 25% and automating auditing for 5,000+ transactions.</div>
-      <div class="project-link">SQL · Tableau → View on GitHub ↗</div>
-    </a>
+      <div class="project-link">SQL · Tableau</div>
+    </div>
 
   </div>
 
@@ -899,9 +987,9 @@
       <p>Open to conversations about data science, analytics, healthcare tech, or anything interesting. Feel free to reach out.</p>
       <ul class="contact-links">
         <li>
-          <a href="mailto:dube.aditya8@gmail.com">
+          <a href="/cdn-cgi/l/email-protection#c4a0b1a6a1eaa5a0adb0bda5fc84a3a9a5ada8eaa7aba9">
             <span class="link-icon">Email</span>
-            dube.aditya8@gmail.com
+            <span class="__cf_email__" data-cfemail="a5c1d0c7c08bc4c1ccd1dcc49de5c2c8c4ccc98bc6cac8">[email&#160;protected]</span>
           </a>
         </li>
         <li>
@@ -939,7 +1027,7 @@
     <div class="contact-right">
       <h3>Based in Grand Rapids, MI</h3>
       <p>Currently working full-time at Corewell Health. Available for collaborations, research, and side conversations.</p>
-      <div class="email-block">dube.aditya8@gmail.com</div>
+      <div class="email-block"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3b5f4e595e155a5f524f425a037b5c565a525715585456">[email&#160;protected]</a></div>
     </div>
   </div>
 </section>
@@ -950,13 +1038,22 @@
 </footer>
 
 <script>
-  // Scroll reveal for timeline items
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('visible');
-    });
+  // Cursor glow
+  const glow = document.getElementById('cursorGlow');
+  let glowVisible = false;
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+    if (!glowVisible) { glow.style.opacity = '1'; glowVisible = true; }
+  });
+  document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; glowVisible = false; });
+
+  // Intersection observer for experience items
+  const items = document.querySelectorAll('.exp-item');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.15 });
-  document.querySelectorAll('.exp-item').forEach(el => observer.observe(el));
+  items.forEach(i => obs.observe(i));
 </script>
-</body>
-</html>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflar
