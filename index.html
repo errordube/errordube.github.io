@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aditya Dube — Data Scientist & Analyst</title>
+  <title>Aditya Dube — Sr. Application Analyst &amp; Data Scientist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
@@ -672,6 +672,36 @@
       to   { opacity: 1; }
     }
 
+    /* ── LIVE STATUS PULSE ── */
+    .hero-tag { display: flex; align-items: center; gap: 0.6rem; }
+    .pulse-dot {
+      position: relative;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+    .pulse-dot::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid var(--amber);
+      animation: pulse 2s ease-out infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.6); opacity: 0.9; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    /* ── GENERIC SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       nav { padding: 1rem 1.8rem; }
@@ -706,11 +736,11 @@
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
   <div class="hero-glow2"></div>
-  <div class="hero-tag">Data Scientist &amp; Systems Analyst · Detroit, MI</div>
+  <div class="hero-tag"><span class="pulse-dot"></span>Sr. Application Analyst @ Henry Ford Health · Detroit, MI</div>
   <h1 class="hero-name">Aditya<br><em>Dube</em></h1>
   <p class="hero-sub">
     Turning raw data into decisions — across healthcare, finance, and beyond.
-    3+ years bridging analytics, machine learning, and enterprise systems.
+    3+ years bridging analytics, Epic systems, and enterprise automation.
   </p>
   <div class="hero-links">
     <a href="#contact" class="btn btn-primary">Get in Touch</a>
@@ -738,21 +768,21 @@
         Outside of data — I write. Two of my poems have been published in <em>The Opus Coliseum</em>, and I keep a personal blog where language becomes its own kind of model.
       </p>
       <div class="about-stats">
-        <div class="stat-box">
+        <div class="stat-box reveal">
           <div class="stat-num">3+</div>
           <div class="stat-label">Years Experience</div>
         </div>
-        <div class="stat-box">
+        <div class="stat-box reveal">
           <div class="stat-num">$141K</div>
           <div class="stat-label">Annual Savings Delivered</div>
         </div>
-        <div class="stat-box">
+        <div class="stat-box reveal">
           <div class="stat-num">115K+</div>
           <div class="stat-label">Care Gaps Closed</div>
         </div>
-        <div class="stat-box">
-          <div class="stat-num">3.82</div>
-          <div class="stat-label">Graduate GPA</div>
+        <div class="stat-box reveal">
+          <div class="stat-num">47</div>
+          <div class="stat-label">APIs Scored &amp; Tiered</div>
         </div>
       </div>
     </div>
@@ -760,6 +790,7 @@
       <h3>Artistic Publications</h3>
       <p>Beyond data, I'm a published poet. Words, like data, are just another way of finding patterns in the world.</p>
       <ul class="pubs-list">
+        <li>Shadows of Forgotten Dreams<br><span style="font-size:0.8rem;font-family:var(--mono);color:var(--muted);font-style:normal;">2026</span></li>
         <li>Whispers of the Wounded Soul<br><span style="font-size:0.8rem;font-family:var(--mono);color:var(--muted);font-style:normal;">The Opus Coliseum, 2023</span></li>
         <li>Love That Frightens Me<br><span style="font-size:0.8rem;font-family:var(--mono);color:var(--muted);font-style:normal;">The Opus Coliseum, 2022</span></li>
       </ul>
@@ -776,6 +807,21 @@
   <p class="section-label">02 — Experience</p>
   <h2 class="section-title">Where I've <em>worked</em></h2>
   <div class="timeline">
+
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div class="exp-meta">
+        <span class="exp-role">Sr. Application Analyst</span>
+        <span class="exp-company">Henry Ford Health</span>
+        <span class="exp-date">Apr 2026 — Present</span>
+      </div>
+      <ul class="exp-bullets">
+        <li>Own analytics and configuration for the <strong>Hello World</strong> patient communication platform — SMS, email, voice, and the Emmie AI assistant — spanning engagement, consent, and appointment-outcome reporting.</li>
+        <li>Led a <strong>47-API</strong> Genesys + Epic CHEERS CRM analysis across scheduling, billing, and clinical workflows, tiering integrations by implementation priority for the CRM roadmap.</li>
+        <li>Scoped and delivered the Hello World workstream of the <strong>2027 Contact Center Roadmap</strong> for department leadership, ranking and justifying features like Voice Interactive Outbound Workflows and Adaptive Communication Hours.</li>
+        <li>Built director-level dashboard presentations on SMS/email KPIs, engagement trends, and eCheck-in performance, correcting a mid-cycle data-completeness issue that reframed a key metric.</li>
+      </ul>
+    </div>
 
     <div class="exp-item">
       <div class="exp-dot"></div>
@@ -844,7 +890,7 @@
   <p class="section-label">03 — Skills</p>
   <h2 class="section-title">Tools of the <em>trade</em></h2>
   <div class="skills-grid">
-    <div class="skill-group">
+    <div class="skill-group reveal">
       <div class="skill-group-title">Data Science & Analysis</div>
       <div class="skill-tags">
         <span class="tag">Python</span><span class="tag">R</span><span class="tag">SQL</span>
@@ -858,7 +904,7 @@
         <span class="tag">Data Cleaning</span>
       </div>
     </div>
-    <div class="skill-group">
+    <div class="skill-group reveal">
       <div class="skill-group-title">Machine Learning & Deep Learning</div>
       <div class="skill-tags">
         <span class="tag">TensorFlow</span><span class="tag">Keras</span>
@@ -867,7 +913,7 @@
         <span class="tag">Advanced ML Techniques</span>
       </div>
     </div>
-    <div class="skill-group">
+    <div class="skill-group reveal">
       <div class="skill-group-title">Database & Cloud</div>
       <div class="skill-tags">
         <span class="tag">MySQL</span><span class="tag">MongoDB</span>
@@ -875,14 +921,14 @@
         <span class="tag">GCP</span><span class="tag">Snowflake</span>
       </div>
     </div>
-    <div class="skill-group">
+    <div class="skill-group reveal">
       <div class="skill-group-title">Visualization & Reporting</div>
       <div class="skill-tags">
         <span class="tag">Tableau</span><span class="tag">Power BI</span>
         <span class="tag">Matplotlib</span><span class="tag">Plotly</span>
       </div>
     </div>
-    <div class="skill-group">
+    <div class="skill-group reveal">
       <div class="skill-group-title">NLP & Text Analytics</div>
       <div class="skill-tags">
         <span class="tag">SpaCy</span><span class="tag">NLTK</span>
@@ -890,10 +936,11 @@
         <span class="tag">Sentiment Analysis</span>
       </div>
     </div>
-    <div class="skill-group">
+    <div class="skill-group reveal">
       <div class="skill-group-title">Platforms & Tools</div>
       <div class="skill-tags">
-        <span class="tag">Epic EHR</span><span class="tag">Git</span>
+        <span class="tag">Epic EHR</span><span class="tag">Epic Hello World</span>
+        <span class="tag">Epic CHEERS CRM</span><span class="tag">Git</span>
         <span class="tag">Jira</span><span class="tag">sFTP</span>
       </div>
     </div>
@@ -906,7 +953,7 @@
   <h2 class="section-title">Selected <em>work</em></h2>
   <div class="projects-grid">
 
-    <div class="project-card project-card--private">
+    <div class="project-card project-card--private reveal">
       <div class="project-badge project-badge--private">Graduate Research</div>
       <div class="project-icon">📊</div>
       <div class="project-title">MTM Usage Predictors Analysis</div>
@@ -914,7 +961,7 @@
       <div class="project-link">Python · SPSS</div>
     </div>
 
-    <div class="project-card project-card--private">
+    <div class="project-card project-card--private reveal">
       <div class="project-badge project-badge--private">Office Project</div>
       <div class="project-icon">🏥</div>
       <div class="project-title">Epic WorkQueue Automation</div>
@@ -922,7 +969,7 @@
       <div class="project-link">Epic · Python</div>
     </div>
 
-    <div class="project-card project-card--private">
+    <div class="project-card project-card--private reveal">
       <div class="project-badge project-badge--private">Graduate Research</div>
       <div class="project-icon">🤖</div>
       <div class="project-title">NLP & Economic Disparity Research</div>
@@ -930,12 +977,28 @@
       <div class="project-link">Python · NLP</div>
     </div>
 
-    <div class="project-card project-card--private">
+    <div class="project-card project-card--private reveal">
       <div class="project-badge project-badge--private">Internship Project</div>
       <div class="project-icon">📈</div>
       <div class="project-title">Revenue Cycle Tableau Dashboards</div>
       <div class="project-desc">Developed Tableau dashboards for financial KPIs and billing performance metrics, boosting reporting accuracy by 25% and automating auditing for 5,000+ transactions.</div>
       <div class="project-link">SQL · Tableau</div>
+    </div>
+
+    <a href="https://github.com/errordube" target="_blank" class="project-card reveal">
+      <div class="project-badge project-badge--public">Public · Live</div>
+      <div class="project-icon">📄</div>
+      <div class="project-title">ResumeCraft AI</div>
+      <div class="project-desc">A public React app that generates ATS-optimized resumes, backed by a Vercel serverless proxy to the Anthropic API with per-IP rate limiting, PDF/DOCX parsing, and multi-format export.</div>
+      <div class="project-link">React · Vite · Vercel · Anthropic API</div>
+    </a>
+
+    <div class="project-card project-card--private reveal">
+      <div class="project-badge project-badge--private">Office Project</div>
+      <div class="project-icon">☎️</div>
+      <div class="project-title">Genesys + CHEERS CRM API Scorecard</div>
+      <div class="project-desc">Tiered 47 Genesys/Epic CHEERS APIs across CTI, scheduling, billing, and clinical workflows by implementation priority, with field-level documentation to guide the CRM integration roadmap.</div>
+      <div class="project-link">Epic CHEERS · Genesys · Excel</div>
     </div>
 
   </div>
@@ -950,16 +1013,16 @@
   <p class="section-label">05 — Certifications</p>
   <h2 class="section-title">Credentials &amp; <em>badges</em></h2>
   <div class="cert-grid">
-    <div class="cert-item"><div class="cert-name">Cheers - Call Management (Epic)</div><div class="cert-date">May 2026</div></div>
-    <div class="cert-item"><div class="cert-name">Payer Platform Core (Epic)</div><div class="cert-date">Apr 2025</div></div>
-    <div class="cert-item"><div class="cert-name">Tapestry Essentials (Epic)</div><div class="cert-date">Mar 2025</div></div>
-    <div class="cert-item"><div class="cert-name">SQL Advanced — HackerRank</div><div class="cert-date">Oct 2024</div></div>
-    <div class="cert-item"><div class="cert-name">Azure AI Fundamentals (AI-900)</div><div class="cert-date">Sept 2024</div></div>
-    <div class="cert-item"><div class="cert-name">Tableau Desktop Specialist</div><div class="cert-date">Sept 2024</div></div>
-    <div class="cert-item"><div class="cert-name">Data Analytics Badge — Graduate</div><div class="cert-date">Aug 2024</div></div>
-    <div class="cert-item"><div class="cert-name">PCED — Entry Level Data Analyst (Python)</div><div class="cert-date">Jul 2024</div></div>
-    <div class="cert-item"><div class="cert-name">PCEP — Entry Level Python Programmer</div><div class="cert-date">Apr 2024</div></div>
-    <div class="cert-item"><div class="cert-name">SAS 9.4 Programming Fundamentals</div><div class="cert-date">Mar 2024</div></div>
+    <div class="cert-item reveal"><div class="cert-name">Cheers - Call Management (Epic)</div><div class="cert-date">May 2026</div></div>
+    <div class="cert-item reveal"><div class="cert-name">Payer Platform Core (Epic)</div><div class="cert-date">Apr 2025</div></div>
+    <div class="cert-item reveal"><div class="cert-name">Tapestry Essentials (Epic)</div><div class="cert-date">Mar 2025</div></div>
+    <div class="cert-item reveal"><div class="cert-name">SQL Advanced — HackerRank</div><div class="cert-date">Oct 2024</div></div>
+    <div class="cert-item reveal"><div class="cert-name">Azure AI Fundamentals (AI-900)</div><div class="cert-date">Sept 2024</div></div>
+    <div class="cert-item reveal"><div class="cert-name">Tableau Desktop Specialist</div><div class="cert-date">Sept 2024</div></div>
+    <div class="cert-item reveal"><div class="cert-name">Data Analytics Badge — Graduate</div><div class="cert-date">Aug 2024</div></div>
+    <div class="cert-item reveal"><div class="cert-name">PCED — Entry Level Data Analyst (Python)</div><div class="cert-date">Jul 2024</div></div>
+    <div class="cert-item reveal"><div class="cert-name">PCEP — Entry Level Python Programmer</div><div class="cert-date">Apr 2024</div></div>
+    <div class="cert-item reveal"><div class="cert-name">SAS 9.4 Programming Fundamentals</div><div class="cert-date">Mar 2024</div></div>
   </div>
 </section>
 
@@ -1035,7 +1098,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 Aditya Dube &nbsp;·&nbsp; Designed &amp; built with intention &nbsp;·&nbsp; Grand Rapids, MI</p>
+  <p>© 2026 Aditya Dube &nbsp;·&nbsp; Designed &amp; built with intention &nbsp;·&nbsp; Detroit, MI</p>
 </footer>
 
 <script>
@@ -1055,6 +1118,26 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.15 });
   items.forEach(i => obs.observe(i));
+
+  // Intersection observer for generic reveal elements (stats, cards, tags), staggered per parent grid
+  const revealGroups = new Map();
+  document.querySelectorAll('.reveal').forEach(el => {
+    const parent = el.parentElement;
+    if (!revealGroups.has(parent)) revealGroups.set(parent, []);
+    revealGroups.get(parent).push(el);
+  });
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const siblings = revealGroups.get(el.parentElement) || [el];
+      const idx = siblings.indexOf(el);
+      el.style.transitionDelay = (idx * 0.06) + 's';
+      el.classList.add('visible');
+      revealObs.unobserve(el);
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 </script>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflar
