@@ -310,7 +310,17 @@
       top: 0.5rem;
       bottom: 0;
       width: 1px;
-      background: linear-gradient(to bottom, var(--amber), transparent);
+      background: rgba(255,255,255,0.06);
+    }
+    .timeline-progress {
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      width: 1px;
+      height: 0%;
+      background: linear-gradient(to bottom, var(--amber), var(--blue));
+      box-shadow: 0 0 8px rgba(232,160,96,0.6);
+      transform-origin: top;
     }
     .exp-item {
       padding-left: 2.5rem;
@@ -426,9 +436,11 @@
       display: flex;
       flex-direction: column;
       gap: 0.8rem;
-      transition: all 0.3s;
+      transition: border-color 0.3s, box-shadow 0.3s;
       position: relative;
       overflow: hidden;
+      transform-style: preserve-3d;
+      will-change: transform;
     }
     .project-card::before {
       content: '';
@@ -441,7 +453,7 @@
       transform-origin: left;
     }
     .project-card:hover::before { transform: scaleX(1); }
-    .project-card:hover { border-color: rgba(232,160,96,0.3); transform: translateY(-4px); }
+    .project-card:hover { border-color: rgba(232,160,96,0.3); }
     .project-icon {
       font-size: 1.5rem;
       width: 44px; height: 44px;
@@ -497,7 +509,6 @@
     }
     .project-card--private:hover {
       border-color: rgba(138,133,153,0.25);
-      transform: translateY(-2px);
     }
     .project-card--private:hover::before { transform: scaleX(0); }
 
@@ -641,6 +652,48 @@
       opacity: 0;
     }
 
+    /* ── CUSTOM CURSOR ── */
+    .cursor-dot, .cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 1000;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-dot {
+      width: 6px; height: 6px;
+      background: var(--amber);
+      opacity: 0;
+    }
+    .cursor-ring {
+      width: 34px; height: 34px;
+      border: 1px solid rgba(232,160,96,0.5);
+      opacity: 0;
+      transition: width 0.25s, height 0.25s, border-color 0.25s, background 0.25s, opacity 0.3s;
+    }
+    .cursor-ring.active { opacity: 1; }
+    .cursor-dot.active { opacity: 1; }
+    .cursor-ring.is-hover {
+      width: 64px; height: 64px;
+      background: rgba(232,160,96,0.08);
+      border-color: var(--amber);
+    }
+    body.has-custom-cursor, body.has-custom-cursor a, body.has-custom-cursor button {
+      cursor: none;
+    }
+
+    /* ── SCROLL PROGRESS BAR ── */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--amber), var(--blue));
+      z-index: 1001;
+      box-shadow: 0 0 10px rgba(232,160,96,0.5);
+    }
+
     /* ── SECTION SEPARATORS ── */
     section + section {
       position: relative;
@@ -702,6 +755,9 @@
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+    /* ── MAGNETIC ELEMENTS ── */
+    .magnetic { position: relative; will-change: transform; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       nav { padding: 1rem 1.8rem; }
@@ -712,42 +768,57 @@
       .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
       .hero-scroll { display: none; }
     }
+    @media (hover: none) {
+      .cursor-dot, .cursor-ring, .cursor-glow { display: none !important; }
+      body.has-custom-cursor, body.has-custom-cursor a, body.has-custom-cursor button { cursor: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cursor-dot, .cursor-ring { display: none !important; }
+      body.has-custom-cursor, body.has-custom-cursor a, body.has-custom-cursor button { cursor: auto; }
+    }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- CUSTOM CURSOR -->
 <div class="cursor-glow" id="cursorGlow"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#hero">Aditya <span>Dube</span></a>
+  <a class="nav-logo magnetic" href="#hero">Aditya <span>Dube</span></a>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#certifications">Certs</a></li>
-    <li><a href="#blog">Blog</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a class="magnetic" href="#about">About</a></li>
+    <li><a class="magnetic" href="#experience">Experience</a></li>
+    <li><a class="magnetic" href="#skills">Skills</a></li>
+    <li><a class="magnetic" href="#projects">Projects</a></li>
+    <li><a class="magnetic" href="#certifications">Certs</a></li>
+    <li><a class="magnetic" href="#blog">Blog</a></li>
+    <li><a class="magnetic" href="#contact">Contact</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-glow2"></div>
+  <div class="hero-grid" data-parallax="0.15"></div>
+  <div class="hero-glow" data-parallax="0.3"></div>
+  <div class="hero-glow2" data-parallax="0.45"></div>
   <div class="hero-tag"><span class="pulse-dot"></span>Sr. Application Analyst @ Henry Ford Health · Detroit, MI</div>
-  <h1 class="hero-name">Aditya<br><em>Dube</em></h1>
-  <p class="hero-sub">
+  <h1 class="hero-name" id="heroName">Aditya<br><em>Dube</em></h1>
+  <p class="hero-sub" id="heroSub">
     Turning raw data into decisions — across healthcare, finance, and beyond.
     3+ years bridging analytics, Epic systems, and enterprise automation.
   </p>
-  <div class="hero-links">
-    <a href="#contact" class="btn btn-primary">Get in Touch</a>
-    <a href="https://github.com/errordube" target="_blank" class="btn btn-ghost">GitHub</a>
-    <a href="https://www.linkedin.com/in/dubeaditya/" target="_blank" class="btn btn-ghost">LinkedIn</a>
-    <a href="https://leetcode.com/u/dubeaditya2312/" target="_blank" class="btn btn-ghost">LeetCode</a>
-    <a href="https://medium.com/@dube.aditya8" target="_blank" class="btn btn-ghost">Medium</a>
+  <div class="hero-links" id="heroLinks">
+    <a href="#contact" class="btn btn-primary magnetic">Get in Touch</a>
+    <a href="https://github.com/errordube" target="_blank" class="btn btn-ghost magnetic">GitHub</a>
+    <a href="https://www.linkedin.com/in/dubeaditya/" target="_blank" class="btn btn-ghost magnetic">LinkedIn</a>
+    <a href="https://leetcode.com/u/dubeaditya2312/" target="_blank" class="btn btn-ghost magnetic">LeetCode</a>
+    <a href="https://medium.com/@dube.aditya8" target="_blank" class="btn btn-ghost magnetic">Medium</a>
   </div>
   <div class="hero-scroll">Scroll</div>
 </section>
@@ -769,19 +840,19 @@
       </p>
       <div class="about-stats">
         <div class="stat-box reveal">
-          <div class="stat-num">3+</div>
+          <div class="stat-num" data-count-to="3" data-suffix="+">0</div>
           <div class="stat-label">Years Experience</div>
         </div>
         <div class="stat-box reveal">
-          <div class="stat-num">$141K</div>
+          <div class="stat-num" data-count-to="141" data-prefix="$" data-suffix="K">$0</div>
           <div class="stat-label">Annual Savings Delivered</div>
         </div>
         <div class="stat-box reveal">
-          <div class="stat-num">115K+</div>
+          <div class="stat-num" data-count-to="115" data-suffix="K+">0</div>
           <div class="stat-label">Care Gaps Closed</div>
         </div>
         <div class="stat-box reveal">
-          <div class="stat-num">47</div>
+          <div class="stat-num" data-count-to="47" data-suffix="">0</div>
           <div class="stat-label">APIs Scored &amp; Tiered</div>
         </div>
       </div>
@@ -806,7 +877,8 @@
 <section id="experience">
   <p class="section-label">02 — Experience</p>
   <h2 class="section-title">Where I've <em>worked</em></h2>
-  <div class="timeline">
+  <div class="timeline" id="timeline">
+    <div class="timeline-progress" id="timelineProgress"></div>
 
     <div class="exp-item">
       <div class="exp-dot"></div>
@@ -953,7 +1025,7 @@
   <h2 class="section-title">Selected <em>work</em></h2>
   <div class="projects-grid">
 
-    <div class="project-card project-card--private reveal">
+    <div class="project-card project-card--private reveal tilt-card">
       <div class="project-badge project-badge--private">Graduate Research</div>
       <div class="project-icon">📊</div>
       <div class="project-title">MTM Usage Predictors Analysis</div>
@@ -961,7 +1033,7 @@
       <div class="project-link">Python · SPSS</div>
     </div>
 
-    <div class="project-card project-card--private reveal">
+    <div class="project-card project-card--private reveal tilt-card">
       <div class="project-badge project-badge--private">Office Project</div>
       <div class="project-icon">🏥</div>
       <div class="project-title">Epic WorkQueue Automation</div>
@@ -969,7 +1041,7 @@
       <div class="project-link">Epic · Python</div>
     </div>
 
-    <div class="project-card project-card--private reveal">
+    <div class="project-card project-card--private reveal tilt-card">
       <div class="project-badge project-badge--private">Graduate Research</div>
       <div class="project-icon">🤖</div>
       <div class="project-title">NLP & Economic Disparity Research</div>
@@ -977,7 +1049,7 @@
       <div class="project-link">Python · NLP</div>
     </div>
 
-    <div class="project-card project-card--private reveal">
+    <div class="project-card project-card--private reveal tilt-card">
       <div class="project-badge project-badge--private">Internship Project</div>
       <div class="project-icon">📈</div>
       <div class="project-title">Revenue Cycle Tableau Dashboards</div>
@@ -985,7 +1057,7 @@
       <div class="project-link">SQL · Tableau</div>
     </div>
 
-    <div class="project-card project-card--private reveal">
+    <div class="project-card project-card--private reveal tilt-card">
       <div class="project-badge project-badge--private">Office Project</div>
       <div class="project-icon">☎️</div>
       <div class="project-title">Genesys + CHEERS CRM API Scorecard</div>
@@ -996,7 +1068,7 @@
   </div>
 
   <div style="text-align:center;margin-top:2.5rem;">
-    <a href="https://github.com/errordube" target="_blank" class="btn btn-ghost">View all projects on GitHub ↗</a>
+    <a href="https://github.com/errordube" target="_blank" class="btn btn-ghost magnetic">View all projects on GitHub ↗</a>
   </div>
 </section>
 
@@ -1028,8 +1100,8 @@
       <p>From data musings to personal reflections, my blog is where the analytical mind takes a rest and something more human takes over. Also a published poet — because why not both.</p>
     </div>
     <div style="text-align:center;margin-top:2.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-    <a href="https://dubeaditya.blogspot.com/" target="_blank" class="btn btn-ghost">Personal Blog ↗</a>
-    <a href="https://medium.com/@dube.aditya8" target="_blank" class="btn btn-primary">Read on Medium ↗</a>
+    <a href="https://dubeaditya.blogspot.com/" target="_blank" class="btn btn-ghost magnetic">Personal Blog ↗</a>
+    <a href="https://medium.com/@dube.aditya8" target="_blank" class="btn btn-primary magnetic">Read on Medium ↗</a>
     </div>
   </div>
 </section>
@@ -1043,37 +1115,37 @@
       <p>Open to conversations about data science, analytics, healthcare tech, or anything interesting. Feel free to reach out.</p>
       <ul class="contact-links">
         <li>
-          <a href="mailto:dube.aditya8@gmail.com">
+          <a class="magnetic" href="mailto:dube.aditya8@gmail.com">
             <span class="link-icon">Email</span>
             dube.aditya8@gmail.com
           </a>
         </li>
         <li>
-          <a href="https://www.linkedin.com/in/dubeaditya/" target="_blank">
+          <a class="magnetic" href="https://www.linkedin.com/in/dubeaditya/" target="_blank">
             <span class="link-icon">LinkedIn</span>
             /in/dubeaditya
           </a>
         </li>
         <li>
-          <a href="https://github.com/errordube" target="_blank">
+          <a class="magnetic" href="https://github.com/errordube" target="_blank">
             <span class="link-icon">GitHub</span>
             github.com/errordube
           </a>
         </li>
         <li>
-          <a href="https://leetcode.com/u/dubeaditya2312/" target="_blank">
+          <a class="magnetic" href="https://leetcode.com/u/dubeaditya2312/" target="_blank">
             <span class="link-icon">LeetCode</span>
             dubeaditya2312
           </a>
         </li>
         <li>
-          <a href="https://dubeaditya.blogspot.com/" target="_blank">
+          <a class="magnetic" href="https://dubeaditya.blogspot.com/" target="_blank">
             <span class="link-icon">Blog</span>
             dubeaditya.blogspot.com
           </a>
         </li>
         <li>
-          <a href="https://medium.com/@dube.aditya8" target="_blank">
+          <a class="magnetic" href="https://medium.com/@dube.aditya8" target="_blank">
             <span class="link-icon">Medium</span>
             @dube.aditya8
           </a>
@@ -1093,43 +1165,197 @@
   <p>© 2026 Aditya Dube &nbsp;·&nbsp; Designed &amp; built with intention &nbsp;·&nbsp; Detroit, MI</p>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-  // Cursor glow
-  const glow = document.getElementById('cursorGlow');
-  let glowVisible = false;
-  document.addEventListener('mousemove', e => {
-    glow.style.left = e.clientX + 'px';
-    glow.style.top = e.clientY + 'px';
-    if (!glowVisible) { glow.style.opacity = '1'; glowVisible = true; }
+  gsap.registerPlugin(ScrollTrigger);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(hover: none)').matches;
+
+  /* ── SCROLL PROGRESS BAR ── */
+  const progressBar = document.getElementById('scrollProgress');
+  function updateProgress() {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progressBar.style.width = scrolled + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  /* ── CUSTOM CURSOR ── */
+  if (!isTouch && !reduceMotion) {
+    document.body.classList.add('has-custom-cursor');
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    const glow = document.getElementById('cursorGlow');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    let shown = false;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+      glow.style.left = mx + 'px'; glow.style.top = my + 'px';
+      if (!shown) {
+        dot.classList.add('active'); ring.classList.add('active'); glow.style.opacity = '1';
+        shown = true;
+      }
+    });
+    document.addEventListener('mouseleave', () => {
+      dot.classList.remove('active'); ring.classList.remove('active'); glow.style.opacity = '0';
+      shown = false;
+    });
+    function animateRing() {
+      rx += (mx - rx) * 0.18;
+      ry += (my - ry) * 0.18;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    const hoverables = document.querySelectorAll('a, button, .tag, .stat-box, .project-card, .cert-item, .skill-group');
+    hoverables.forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('is-hover'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('is-hover'));
+    });
+  } else {
+    document.getElementById('cursorDot').style.display = 'none';
+    document.getElementById('cursorRing').style.display = 'none';
+  }
+
+  /* ── MAGNETIC ELEMENTS ── */
+  if (!isTouch && !reduceMotion) {
+    document.querySelectorAll('.magnetic').forEach(el => {
+      let bound = 18;
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const relX = e.clientX - (r.left + r.width / 2);
+        const relY = e.clientY - (r.top + r.height / 2);
+        gsap.to(el, { x: relX * 0.35, y: relY * 0.35, duration: 0.35, ease: 'power2.out' });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
+      });
+    });
+  }
+
+  /* ── 3D TILT ON PROJECT CARDS ── */
+  if (!isTouch && !reduceMotion) {
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        gsap.to(card, {
+          rotateY: px * 8,
+          rotateX: -py * 8,
+          transformPerspective: 700,
+          duration: 0.4,
+          ease: 'power2.out'
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.6, ease: 'power3.out' });
+      });
+    });
+  }
+
+  /* ── HERO PARALLAX ── */
+  if (!reduceMotion) {
+    document.querySelectorAll('[data-parallax]').forEach(el => {
+      const speed = parseFloat(el.dataset.parallax);
+      gsap.to(el, {
+        yPercent: speed * 100,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    });
+
+    gsap.to('#heroName, #heroSub, #heroLinks', {
+      yPercent: -25,
+      opacity: 0.15,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      }
+    });
+  }
+
+  /* ── TIMELINE DRAW ON SCROLL ── */
+  gsap.to('#timelineProgress', {
+    height: '100%',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#timeline',
+      start: 'top 70%',
+      end: 'bottom 80%',
+      scrub: 0.6
+    }
   });
-  document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; glowVisible = false; });
 
-  // Intersection observer for experience items
-  const items = document.querySelectorAll('.exp-item');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.15 });
-  items.forEach(i => obs.observe(i));
+  /* ── EXPERIENCE ITEM REVEAL ── */
+  document.querySelectorAll('.exp-item').forEach(item => {
+    ScrollTrigger.create({
+      trigger: item,
+      start: 'top 85%',
+      onEnter: () => item.classList.add('visible'),
+      onEnterBack: () => item.classList.add('visible')
+    });
+  });
 
-  // Intersection observer for generic reveal elements (stats, cards, tags), staggered per parent grid
+  /* ── GENERIC REVEAL GROUPS (stats, skill cards, cert items, project cards) ── */
   const revealGroups = new Map();
   document.querySelectorAll('.reveal').forEach(el => {
     const parent = el.parentElement;
     if (!revealGroups.has(parent)) revealGroups.set(parent, []);
     revealGroups.get(parent).push(el);
   });
-  const revealObs = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const siblings = revealGroups.get(el.parentElement) || [el];
-      const idx = siblings.indexOf(el);
-      el.style.transitionDelay = (idx * 0.06) + 's';
-      el.classList.add('visible');
-      revealObs.unobserve(el);
+  revealGroups.forEach(siblings => {
+    ScrollTrigger.create({
+      trigger: siblings[0],
+      start: 'top 88%',
+      onEnter: () => {
+        siblings.forEach((el, idx) => {
+          el.style.transitionDelay = (idx * 0.06) + 's';
+          el.classList.add('visible');
+        });
+      },
+      once: true
     });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+  });
+
+  /* ── ANIMATED STAT COUNTERS ── */
+  document.querySelectorAll('.stat-num').forEach(el => {
+    const target = parseFloat(el.dataset.countTo);
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    if (isNaN(target)) return;
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 88%',
+      once: true,
+      onEnter: () => {
+        const obj = { val: 0 };
+        gsap.to(obj, {
+          val: target,
+          duration: 1.6,
+          ease: 'power2.out',
+          onUpdate: () => {
+            el.textContent = prefix + Math.round(obj.val) + suffix;
+          }
+        });
+      }
+    });
+  });
 </script>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflar
+</body>
+</html>
