@@ -1490,8 +1490,7 @@
       y: 0,
       duration: 0.7,
       stagger: 0.11,
-      ease: 'power3.out',
-      clearProps: 'transform'
+      ease: 'power3.out'
     });
   }
 
@@ -1663,12 +1662,18 @@
     });
   });
 
-  gsap.to('#heroName, #heroBlurb, #heroLinks', {
-    yPercent: -22,
-    opacity: 0.1,
-    ease: 'none',
-    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
-  });
+  /* fromTo + immediateRender:false pins the start state at "fully visible".
+     A plain .to() would sample opacity while the intro still has the hero
+     hidden, and scrolling back up would restore that 0 instead of 1. */
+  gsap.fromTo('#heroName, #heroBlurb, #heroLinks',
+    { yPercent: 0, opacity: 1 },
+    {
+      yPercent: -22,
+      opacity: 0.1,
+      ease: 'none',
+      immediateRender: false,
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
 
   document.querySelectorAll('.sec-issue').forEach(function (el) {
     gsap.from(el, {
